@@ -19,11 +19,9 @@ $(function () {
                 type : "post",
                 async : true,
                 success : function (data, textStatus) {
-                    var json2 = eval("(" + data + ")");
-                    var ret = json2[0].rresult;
-                    if(ret == "exist") {
+                    if(data == "emailIsNotRegister") {
                         alert("邮箱还没有注册用户！请先注册!");
-                    } else if(ret == "success"){
+                    } else if(data == "success"){
                         alert("重置密码邮件已经发送，请登陆邮箱进行重置!")
                         $(window).attr('location', method.getPath() +'/login');
                     }

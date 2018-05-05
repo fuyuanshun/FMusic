@@ -33,12 +33,10 @@ $(function () {
                 data: json,
                 async: true,
                 success: function (data, textStatus) {
-                    var json = eval("("+data+")");
-                    var ret = json[0].rresult;
-                    if(ret == "updatesuccess") {
+                    if(data == "updateSuccess") {
                         alert("修改用户密码成功!");
                         $(window).attr('location', method.getPath() +'/login');
-                    } else if (ret == "updateerror") {
+                    } else if (data == "updateError") {
                         alert("用户名与邮箱不一致!");
                     }
                 },

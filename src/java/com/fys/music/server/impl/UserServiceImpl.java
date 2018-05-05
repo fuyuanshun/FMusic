@@ -50,7 +50,7 @@ public class UserServiceImpl implements UserService {
         String mail = selectMailIsExist(email);
         if(null == isexist) {
             if(null != mail) {
-                return "registerfail";
+                return "emailIsExist";
             }
             /**
              * 后台对数据的验证,保证值不为空才发送至后台
@@ -68,11 +68,11 @@ public class UserServiceImpl implements UserService {
                     e.printStackTrace();
                 }
                 insertUser(user);
-                return "registersuccess";
+                return "registerSuccess";
             }
-            return "error";
+            return "userIsExist";
         } else {
-            return "error";
+            return "userIsExist";
         }
     }
 
@@ -86,15 +86,14 @@ public class UserServiceImpl implements UserService {
             Integer state = selectState(username);
 
             if(null != state && state == 0) {
-                return "loginfail";
+                return "userIsNotActive";
             }
-
             if(password.equals(dbpassword)) {
-                return "loginsuccess";
+                return "loginSuccess";
             } else {
-                return "loginerror";
+                return "loginError";
             }
-        } else return "loginerror";
+        } else return "loginError";
     }
 
     /**
@@ -149,7 +148,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public List<Resource> selectResourceByPage(int currentPage, int pageSize) {
-        currentPage = (currentPage-1)*10+1;
+        currentPage = (currentPage-1)*10;
         return userDao.selectResourceByPage(currentPage, pageSize);
     }
 
@@ -207,6 +206,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public String checkValidateCode(String validateCode, String email) {
+
         if(null != validateCode && !validateCode.equals("")) {
             if(null == selectOutDate(validateCode)) {
                 return "reseterror";
@@ -236,12 +236,12 @@ public class UserServiceImpl implements UserService {
         if(null != username && null != password && null != password2 && password.equals(password2)) {
             if(selectUsernameByEmail(email).equals(username)) {
                 userDao.updatePassword(username, password);
-                return "updatesuccess";
+                return "updateSuccess";
             } else {
-                return "updateerror";
+                return "updateError";
             }
         } else {
-            return "updateerror";
+            return "updateError";
         }
     }
 }

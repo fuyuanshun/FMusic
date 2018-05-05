@@ -13,25 +13,22 @@
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/resetpage.js"></script>
 </head>
 <body class="container">
-    <form action="" method="post" id="resetForm">
+    <form action="" method="post" id="resetForm" class="form-horizontal">
         <input type="hidden" value="<%=email%>" name="email">
-        <p>
-            <label>用户名</label>
-            <input type="text" name="username">
-        </p>
-        <p>
-            <label>用户密码</label>
-            <input type="password" name="password" id="password">
-        </p>
+        <label class="col-sm-2 control-label">用户名</label>
+        <div class="col-sm-10">
+            <input type="text" name="username" class="form-control">
+        </div>
+        <label class="col-sm-2 control-label">用户密码</label>
+        <div class="col-sm-10">
+            <input type="password" name="password" id="password" class="form-control">
+        </div>
+        <label class="col-sm-2 control-label">确认密码</label>
 
-        <p>
-            <label>确认密码</label>
-            <input type="password" name="password2">
-        </p>
-
-        <p>
-            <input type="submit" value="修改">
-        </p>
+        <div class="col-sm-10">
+            <input type="password" name="password2" class="form-control">
+        </div>
+        <input type="submit" value="修改" class="btn btn-default">
     </form>
 </body>
 </html>

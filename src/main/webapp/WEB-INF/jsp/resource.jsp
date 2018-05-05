@@ -60,7 +60,7 @@
         <td><a href="${pageContext.request.contextPath}/resource.action?currentPage=1" >首页</a></td>&nbsp;&nbsp;
         <td><a href="${pageContext.request.contextPath}/resource.action?currentPage=<%=currentPage-1%>" >上一页</a></td>&nbsp;&nbsp;
         <td><a href="${pageContext.request.contextPath}/resource.action?currentPage=<%=currentPage+1%>">下一页</a></td>&nbsp;&nbsp;
-        <td><a href="${pageContext.request.contextPath}/resource.action?currentPage=621" >尾页</a></td>&nbsp;&nbsp;
+        <td><a href="${pageContext.request.contextPath}/resource.action?currentPage=${totalPage}" >尾页</a></td>&nbsp;&nbsp;
     </tr>
     <span>注:链接后的空格不要复制</span>
 </table>

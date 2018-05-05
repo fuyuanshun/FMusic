@@ -28,7 +28,7 @@ public class Page {
     }
 
     public void init() {
-        totalPage = totalCount % pageSize > 0 ? totalCount/ pageSize : totalCount/ pageSize +1;
+        totalPage = totalCount % pageSize != 0 ? totalCount / pageSize + 1 : totalCount/ pageSize;
         setTotalPage(totalPage);
         setHasPrePage(beginPage < currentPage);
         setHasNextPage(currentPage < totalPage);

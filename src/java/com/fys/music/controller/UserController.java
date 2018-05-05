@@ -11,6 +11,8 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -32,7 +34,13 @@ public class UserController {
      * 用户注册处理
      */
     @RequestMapping("/registerDeal")
-    public String registerDeal(HttpServletRequest req, HttpServletResponse resp) {
+    public void registerDeal(HttpServletRequest req, HttpServletResponse resp) {
+        PrintWriter print = null;
+        try {
+            print = resp.getWriter();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         String username = req.getParameter("username");
         String password = req.getParameter("password");
         String password2 = req.getParameter("password2");
@@ -44,8 +52,13 @@ public class UserController {
         String phone = req.getParameter("phone");
         String address = req.getParameter("address");
         String ret = userService.registerDeal(username, password, password2, email, sex, age, birthday, hobby, phone, address);
-
-        return ret;
+        if(ret.equals("emailIsExist")) {
+            print.write("emailIsExist");
+        } else if (ret.equals("registerSuccess")) {
+            print.write("registerSuccess");
+        } else if (ret.equals("userIsExist")) {
+            print.write("userIsExist");
+        }
     }
 
 
@@ -74,18 +87,23 @@ public class UserController {
      * 登陆处理
      */
     @RequestMapping("/loginDeal")
-    public String loginDeal(HttpServletRequest req, HttpServletResponse resp) {
+    public void loginDeal(HttpServletRequest req, HttpServletResponse resp) {
+        PrintWriter out = null;
+        try {
+            out = resp.getWriter();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         String username = req.getParameter("username");
         String password = req.getParameter("password");
         String ret = userService.loginDeal(username, password);
-        if (ret.equals("loginerror")) {
-            return ret;
-        } else if (ret.equals("loginfail")) {
-            return ret;
-        } else {
+        if (ret.equals("loginSuccess")) {
             HttpSession httpSession = req.getSession();
             httpSession.setAttribute("username", username);
-            return ret;
+            out.write("loginSuccess");
+        } else {
+            out.write(ret);
         }
     }
 
@@ -128,13 +146,20 @@ public class UserController {
      * 找回密码处理
      */
     @RequestMapping("/forgetPasswordDeal")
-    public String forgetPasswordDeal(HttpServletRequest req, HttpServletResponse resp) {
+    public void forgetPasswordDeal(HttpServletRequest req, HttpServletResponse resp) {
+        PrintWriter out = null;
+        try {
+            out = resp.getWriter();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         String email = req.getParameter("email");
         if(null != userService.selectMailIsExist(email)) {
             userService.forgetPasswordDeal(email);
-            return "success";
+            out.print("success");
         } else {
-            return "emailisnotre";
+            out.print("emailIsNotRegister");
         }
 
     }
@@ -159,12 +184,19 @@ public class UserController {
      * 修改密码
      */
     @RequestMapping("/updatePassword")
-    public String updatePassword(HttpServletRequest req, HttpServletResponse resp) {
+    public void updatePassword(HttpServletRequest req, HttpServletResponse resp) {
+        PrintWriter out = null;
+        try {
+            out = resp.getWriter();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         String email = req.getParameter("email");
         String username = req.getParameter("username");
         String password = req.getParameter("password");
         String password2 = req.getParameter("password2");
-        return userService.updatePassword(username, password, password2, email);
+        out.print(userService.updatePassword(username, password, password2, email));
     }
     /**
      * 资源列表页面

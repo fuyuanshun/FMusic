@@ -73,15 +73,12 @@ $(function () {
                 async : true,
                 data : json,
                 success : function (data, textStatus) {
-                    var json2 = eval("("+data+")");
-                    var result = json2[0].rresult;
-
-                    if(result == "exist") {
+                    if(data == "userIsExist") {
                         alert("用户名已经存在");
-                    } else if (result == "success") {
+                    } else if (data == "registerSuccess") {
                         alert("注册成功!邮件已经发送至您的邮箱，请先激活");
                         $(window).attr('location', method.getPath() +'/login');
-                    } else if (result == "registerfail") {
+                    } else if (data == "emailIsExist") {
                         alert("邮箱已经被使用!");
                     }
                 },

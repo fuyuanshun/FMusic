@@ -18,13 +18,11 @@ $(function () {
                 async : true,
                 data : json,
                 success : function (data, textStatus) {
-                    var json = eval("("+data+")");
-                    var result = json[0].rresult;
-                    if(result == "loginerror") {
+                    if(data == "loginError") {
                         alert("用户名密码不匹配!")
-                    } else if (result == "loginsuccess") {
+                    } else if (data == "loginSuccess") {
                         $(window).attr('location', server_context);
-                    } else if (result == "loginfail") {
+                    } else if (data == "userIsNotActive") {
                         alert("用户名未激活!");
                     }
                 },

@@ -1,0 +1,65 @@
+html, body {
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    width: 100%;
+    height: auto;
+    background: url(/FMusic/images/login.jpg) no-repeat;
+    background-size: 100%;
+}
+
+p {
+    font-size: 20px;
+    color: red;
+}
+
+.outer-wrap {
+    opacity: 0.8; /*透明度*/
+    width: 800px;
+    height: 450px;
+    position: absolute;
+    left: 30%;
+    top: 20%;
+    background-image: url(/FMusic/images/login2.jpg);
+}
+input {
+    display: block;
+}
+
+.login {
+    position: absolute;
+    left: 40%;
+    top: 40%;
+}
+
+.login td {
+    color: aqua;
+}
+.login a{
+    display: block;
+    height: 34px;
+    width: 77px;
+    line-height: 2;
+    text-align: center;
+    background: aqua;
+    color: #d84700;
+    font-size: 14px;
+    font-weight: bold;
+    text-decoration: none;
+    padding-top: 3px;
+}
+.button {
+    display: block;
+    height: 34px;
+    width: 77px;
+    line-height: 2;
+    text-align: center;
+    background: aqua;
+    color: #d84700;
+    font-size: 14px;
+    font-weight: bold;
+    text-decoration: none;
+    padding-top: 3px;
+}

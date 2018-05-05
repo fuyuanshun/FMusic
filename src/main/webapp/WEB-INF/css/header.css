@@ -1,0 +1,13 @@
+nav.top {
+    font-size: 16px;
+    background: #999999;
+    padding-top : 2px;
+    padding-bottom : 2px;
+    boder-bottom : 1px solid #e7e7e7;
+}
+
+nav.top a {
+    text-decoration: none;
+    color : black;
+    margin : 0px 10px 0px 10px;
+}

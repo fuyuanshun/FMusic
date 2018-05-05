@@ -1,0 +1,54 @@
+ul {
+    list-style: none;
+}
+
+.top2 {
+    position : relative;
+    top : 0px;
+    width : 150px;
+    height : 900px;
+    background: red;
+}
+
+.top2 ul li {
+    height : 80px;
+}
+
+.top2 ul a {
+    color : black;
+    font-size: 20px;
+    line-height: 15px;
+}
+
+div.new0 {
+    width : 600px;
+    height : 800px;
+    position : absolute;
+    top : 57px;
+    left : 300px;
+    float : right;
+}
+
+.main {
+    width : 800px;
+    height : 400px;
+    position : absolute;
+    top : 28px;
+    left : 150px;
+    float : right;
+}
+
+div.new1 {
+    background: green;
+    display: none;
+}
+
+div.new2 {
+    background: blue;
+    display: none;
+}
+
+div.new3 {
+    background: gold;
+    display: none;
+}

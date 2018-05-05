@@ -75,11 +75,12 @@ $(function () {
                 success : function (data, textStatus) {
                     var json2 = eval("("+data+")");
                     var result = json2[0].rresult;
-                    if(result == "用户名已经存在") {
+
+                    if(result == "exist") {
                         alert("用户名已经存在");
-                    } else if (result == "注册成功") {
+                    } else if (result == "success") {
                         alert("注册成功!");
-                        $(window).attr('location', server_context +'/login.action');
+                        $(window).attr('location', method.getPath() +'/login.action');
                     } else if (result == "registerfail") {
                         alert("邮箱已经被使用!");
                     }

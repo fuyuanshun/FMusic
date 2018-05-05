@@ -1,4 +1,3 @@
-<%@ page import="com.fys.util.Page" %>
 <%@ page import="java.util.regex.Pattern" %>
 <%@   page contentType="text/html;charset=utf-8" %>
 <%@ page pageEncoding="utf-8" %>

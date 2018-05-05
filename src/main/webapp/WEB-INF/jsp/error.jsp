@@ -2,6 +2,6 @@
 <%@ page pageEncoding="utf-8" %>
 <%request.setCharacterEncoding("utf-8");%>
 <%
-    String json = "[{'rresult':'用户名已经存在'}]";
+    String json = "[{'rresult':'exist'}]";
     out.print(json);
 %>

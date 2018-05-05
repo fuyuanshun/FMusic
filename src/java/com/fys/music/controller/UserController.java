@@ -1,9 +1,7 @@
 package com.fys.music.controller;
 
 import com.fys.music.model.Resource;
-import com.fys.music.model.User;
 import com.fys.music.server.UserService;
-import com.fys.util.MailUtil;
 import com.fys.util.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,7 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.List;
-import java.util.UUID;
 import java.util.regex.Pattern;
 
 @Controller
@@ -46,25 +43,9 @@ public class UserController {
         String hobby = req.getParameter("hobby");
         String phone = req.getParameter("phone");
         String address = req.getParameter("address");
-        String isexist = userService.selectByUsername(username);
-        String mail = userService.selectMailIsExist(email);
-        if(null == isexist) {
-            if(null != mail) {
-                return "registerfail";
-            }
-            /**
-             * 后台对数据的验证,保证值不为空才发送至后台
-             */
-            if(password.equals(password2) && null != email && null != sex && null != age && null != birthday && null != hobby && null != phone && null != address) {
-                User user = new User(username, password, email, sex, age, phone, birthday, hobby, address);
-                userService.registerDeal(user);
-                userService.insertUser(user);
-                return "registersuccess";
-            }
-            return "error";
-        } else {
-            return "error";
-        }
+        String ret = userService.registerDeal(username, password, password2, email, sex, age, birthday, hobby, phone, address);
+
+        return ret;
     }
 
 
@@ -96,22 +77,16 @@ public class UserController {
     public String loginDeal(HttpServletRequest req, HttpServletResponse resp) {
         String username = req.getParameter("username");
         String password = req.getParameter("password");
-        if(null != password && null != username) {
-            String dbpassword = userService.selectPasswordByUsername(username);
-            Integer state = userService.selectState(username);
-
-            if(null != state && state == 0) {
-                return "loginfail";
-            }
-
-            if(password.equals(dbpassword)) {
-                HttpSession httpSession = req.getSession();
-                httpSession.setAttribute("username", username);
-                return "loginsuccess";
-            } else {
-                return "loginerror";
-            }
-        } else return "loginerror";
+        String ret = userService.loginDeal(username, password);
+        if (ret.equals("loginerror")) {
+            return ret;
+        } else if (ret.equals("loginfail")) {
+            return ret;
+        } else {
+            HttpSession httpSession = req.getSession();
+            httpSession.setAttribute("username", username);
+            return ret;
+        }
     }
 
     /**
@@ -154,16 +129,14 @@ public class UserController {
      */
     @RequestMapping("/forgetPasswordDeal.action")
     public String forgetPasswordDeal(HttpServletRequest req, HttpServletResponse resp) {
-
-        String url = UUID.randomUUID().toString();
-        System.out.println(url);
         String email = req.getParameter("email");
-        try {
-            MailUtil.sendTo("<a href='localhost:8080/FMusic/forgetPassword.action?url='"+url+">请点击修改密码</a>", email);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        userService.forgetPasswordDeal(email);
         return "forgetpassworddeal";
+    }
+
+    @RequestMapping("/urlCode")
+    public String confirmCode(HttpServletRequest req, HttpServletResponse resp) {
+        return "";
     }
 
     /**

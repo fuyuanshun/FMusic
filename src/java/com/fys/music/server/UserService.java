@@ -32,7 +32,7 @@ public interface UserService {
     /**
      * 判断用户是否已经激活
      */
-    User registerDeal(User user);
+    String registerDeal(String username, String password, String password2, String email, String sex, Integer age, String birthday, String hobby, String phone, String address);
 
     /**
      * 更新用户的状态
@@ -55,6 +55,11 @@ public interface UserService {
     String selectMailIsExist(String mail);
 
     /**
+     * 用户登陆处理
+     */
+    String loginDeal(String username, String password);
+
+    /**
      * 查询所有的磁力链
      */
     List<Resource> selectResource();
@@ -63,4 +68,9 @@ public interface UserService {
      * 分页查询磁力链
      */
     List<Resource> selectResourceByPage(int currentPage, int pageSize);
+
+    /**
+     * 找回密码的处理逻辑
+     */
+    public void forgetPasswordDeal(String email);
 }

@@ -30,8 +30,8 @@ $(function () {
     /**
      * 生日校验规则
      */
-    $.validator.addMethod("checkBirthday", function (data, element, param) {
-        if(/^[0-9]{4}\-(0[1-9]|[1-9]|1[0-2])\-([0][0-9]|[1][0-9]|[2][0-9]|[3][0-1])$/.test(data)) {
+    $.validator.addMethod("checkBirthday", function (value, element, param) {
+        if(/^[0-9]{4}\-(0[1-9]|[1-9]|1[0-2])\-([0][0-9]|[1][0-9]|[2][0-9]|[3][0-1])$/.test(value)) {
             return true;
         } else {
             return false;
@@ -68,7 +68,7 @@ $(function () {
             var json = $("#myform").serialize();
 
             $.ajax({
-                url : method.getPath() +"/registerDeal.action",
+                url : method.getPath() +"/registerDeal",
                 type : "post",
                 async : true,
                 data : json,
@@ -79,8 +79,8 @@ $(function () {
                     if(result == "exist") {
                         alert("用户名已经存在");
                     } else if (result == "success") {
-                        alert("注册成功!");
-                        $(window).attr('location', method.getPath() +'/login.action');
+                        alert("注册成功!邮件已经发送至您的邮箱，请先激活");
+                        $(window).attr('location', method.getPath() +'/login');
                     } else if (result == "registerfail") {
                         alert("邮箱已经被使用!");
                     }

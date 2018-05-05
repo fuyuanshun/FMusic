@@ -15,19 +15,23 @@ public class LoginInterceptor implements HandlerInterceptor {
         /**
          *  放行用户的注册，登陆和处理页面
          */
-        if(uri.indexOf("login.action") >= 0){
+        if(uri.indexOf("login") >= 0){
             return true;
-        } else if (uri.indexOf("loginDeal.action") >= 0) {
+        } else if (uri.indexOf("loginDeal") >= 0) {
             return true;
-        } else if (uri.indexOf("register.action") >= 0) {
+        } else if (uri.indexOf("register") >= 0) {
             return true;
-        } else if (uri.indexOf("registerDeal.action") >= 0) {
+        } else if (uri.indexOf("registerDeal") >= 0) {
             return true;
-        } else if (uri.indexOf("mailConf.action") >= 0) {
+        } else if (uri.indexOf("mailConf") >= 0) {
             return true;
-        } else if (uri.indexOf("forgetPassword.action") >= 0) {
+        } else if (uri.indexOf("forgetPassword") >= 0) {
             return true;
-        } else if (uri.indexOf("forgetPasswordDeal.action") >= 0) {
+        } else if (uri.indexOf("forgetPasswordDeal") >= 0) {
+            return true;
+        } else if (uri.indexOf("resetPassword") >= 0) {
+            return true;
+        } else if (uri.indexOf("updatePassword") >= 0) {
             return true;
         }
         /**

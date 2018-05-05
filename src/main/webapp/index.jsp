@@ -16,14 +16,6 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/musicdemo/audioplayer.css" />
 </head>
 <body>
-<%--<div class="top2">
-    <br><br><br>
-    <ul>
-        <li><a href="${pageContext.request.contextPath}/music.action">推荐</a></li>
-        <li><a href="${pageContext.request.contextPath}/hotmusic.action">热门音乐</a></li>
-        <li><a href="${pageContext.request.contextPath}/music.action">流行音乐</a></li>
-    </ul>
-</div>--%>
 <div class="top3">
     <div class="new1 main">
         <a href="${pageContext.request.contextPath}/music.action">播放</a>

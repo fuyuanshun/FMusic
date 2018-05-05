@@ -13,7 +13,7 @@ $(function () {
             var json = $("#loginform").serialize();
 
             $.ajax({
-                url : server_context +"/loginDeal.action",
+                url : server_context +"/loginDeal",
                 type : "post",
                 async : true,
                 data : json,

@@ -5,6 +5,7 @@ import com.fys.music.model.User;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 @Repository("userDao")
@@ -57,4 +58,34 @@ public interface UserDao {
      * 分页查询磁力链
      */
     List<Resource> selectResourceByPage(@Param("currentPage") int currentPage, @Param("pageSize") int pageSize);
+
+    /**
+     * 更新找回密码的validateCode
+     */
+    void updateValidateCode(String validateCode);
+
+    /**
+     * 查询找回密码的validateCode
+     */
+    String selectValidateCode(String email);
+
+    /**
+     * 更新找回密码的过期时间
+     */
+    void updateOutDate(Date outDate);
+
+    /**
+     * 查询找回密码的过期时间
+     */
+    String selectOutDate(String validateCode);
+
+    /**
+     * 通过用户名修改密码
+     */
+    void updatePassword(@Param("username")String username, @Param("password")String password);
+
+    /**
+     * 通过email查询用户名
+     */
+    String selectUsernameByEmail(String email);
 }

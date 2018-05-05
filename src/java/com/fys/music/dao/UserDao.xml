@@ -47,4 +47,34 @@
     <select id="selectResourceByPage" resultType="Resource">
         select id, magnet from resource limit #{currentPage},#{pageSize}
     </select>
+
+    <!--更新validateCode-->
+    <update id="updateValidateCode" parameterType="String">
+        update user set validatecode = #{validateCode}
+    </update>
+
+    <!--查询找回密码的validateCode-->
+    <select id="selectValidateCode" parameterType="String" resultType="String">
+        select validatecode from user where email = #{email}
+    </select>
+
+    <!--设置找回密码的过期时间-->
+    <update id="updateOutDate" parameterType="Date">
+        update user set outdate = #{outDate}
+    </update>
+
+    <!--查询找回密码的过期时间-->
+    <select id="selectOutDate" resultType="String" parameterType="String">
+        select outdate from user where validatecode = #{validateCode}
+    </select>
+
+    <!--通过用户名修改密码-->
+    <update id="updatePassword" >
+        update user set password = #{password} where username = #{username}
+    </update>
+
+    <!--通过邮箱查询用户名-->
+    <select id="selectUsernameByEmail" parameterType="String" resultType="String">
+        select username from user where email = #{email}
+    </select>
 </mapper>

@@ -41,13 +41,13 @@
             <%
                 if(result.equals("")){
             %>
-            <a href="${pageContext.request.contextPath}/login.action">请登陆</a>
+            <a href="${pageContext.request.contextPath}/login">请登陆</a>
             <%--判断用户是否登陆，如果已经登陆就显示用户名和退出按钮--%>
             <%}else if(null != result && !result.equals("")) {%>
             <span><%out.print(result);%></span>
             <a href="${pageContext.request.contextPath}/logout.action">退出</a>
             <%}%>
-            <a href="${pageContext.request.contextPath}/register.action">
+            <a href="${pageContext.request.contextPath}/register">
                 还没有用户名?免费注册一个吧
             </a>
         </span>

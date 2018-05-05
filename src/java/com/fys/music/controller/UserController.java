@@ -23,7 +23,7 @@ public class UserController {
      * 用户填写注册信息页面
      * @return
      */
-    @RequestMapping("/register.action")
+    @RequestMapping("/register")
     public String register() {
         return "register";
     }
@@ -31,7 +31,7 @@ public class UserController {
     /**
      * 用户注册处理
      */
-    @RequestMapping("/registerDeal.action")
+    @RequestMapping("/registerDeal")
     public String registerDeal(HttpServletRequest req, HttpServletResponse resp) {
         String username = req.getParameter("username");
         String password = req.getParameter("password");
@@ -53,7 +53,7 @@ public class UserController {
      * 激活邮箱
      */
 
-    @RequestMapping("/mailConf.action")
+    @RequestMapping("/mailConf")
     public String mailConf(HttpServletRequest req, HttpServletResponse resp) {
         String url = req.getParameter("url");
         userService.mailConf(url);
@@ -64,7 +64,7 @@ public class UserController {
     /**
      * 用户登陆页面
      */
-    @RequestMapping("/login.action")
+    @RequestMapping("/login")
     public String login() {
         return "login";
     }
@@ -73,7 +73,7 @@ public class UserController {
     /**
      * 登陆处理
      */
-    @RequestMapping("/loginDeal.action")
+    @RequestMapping("/loginDeal")
     public String loginDeal(HttpServletRequest req, HttpServletResponse resp) {
         String username = req.getParameter("username");
         String password = req.getParameter("password");
@@ -119,7 +119,7 @@ public class UserController {
     /**
      * 找回密码页面
      */
-    @RequestMapping("/forgetPassword.action")
+    @RequestMapping("/forgetPassword")
     public String forgetPassword() {
         return "forgetpassword";
     }
@@ -127,18 +127,45 @@ public class UserController {
     /**
      * 找回密码处理
      */
-    @RequestMapping("/forgetPasswordDeal.action")
+    @RequestMapping("/forgetPasswordDeal")
     public String forgetPasswordDeal(HttpServletRequest req, HttpServletResponse resp) {
         String email = req.getParameter("email");
-        userService.forgetPasswordDeal(email);
-        return "forgetpassworddeal";
+        if(null != userService.selectMailIsExist(email)) {
+            userService.forgetPasswordDeal(email);
+            return "success";
+        } else {
+            return "emailisnotre";
+        }
+
     }
 
-    @RequestMapping("/urlCode")
-    public String confirmCode(HttpServletRequest req, HttpServletResponse resp) {
-        return "";
+    /**
+     * 检查找回密码的validateCode是否正确
+     */
+    @RequestMapping("/resetPassword")
+    public String checkValidateCode(HttpServletRequest req, HttpServletResponse resp) {
+        String validateCode = req.getParameter("validateCode");
+        String email = req.getParameter("email");
+        String ret = userService.checkValidateCode(validateCode, email);
+        if(ret.equals("resetpage")) {
+            req.setAttribute("email", email);
+            return ret;
+        } else {
+            return ret;
+        }
     }
 
+    /**
+     * 修改密码
+     */
+    @RequestMapping("/updatePassword")
+    public String updatePassword(HttpServletRequest req, HttpServletResponse resp) {
+        String email = req.getParameter("email");
+        String username = req.getParameter("username");
+        String password = req.getParameter("password");
+        String password2 = req.getParameter("password2");
+        return userService.updatePassword(username, password, password2, email);
+    }
     /**
      * 资源列表页面
      */
@@ -185,9 +212,4 @@ public class UserController {
         modelAndView.setViewName("resource");
         return modelAndView;
     }
-
-    /**
-     * 分页查询
-     */
-
 }

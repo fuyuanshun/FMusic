@@ -44,7 +44,7 @@
 
   <!--配置springmvc-->
   <servlet>
-    <servlet-name>SSM</servlet-name>
+    <servlet-name>FMusic</servlet-name>
     <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
     <init-param>
       <param-name>contextConfigLocation</param-name>
@@ -54,7 +54,7 @@
     <load-on-startup>1</load-on-startup>
   </servlet>
   <servlet-mapping>
-    <servlet-name>SSM</servlet-name>
+    <servlet-name>FMusic</servlet-name>
     <!--所有的请求都进入到springmvc-->
     <url-pattern>/</url-pattern>
   </servlet-mapping>

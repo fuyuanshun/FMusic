@@ -14,16 +14,22 @@ $(function () {
         submitHandler: function() {
             var json = $("#getPassword").serialize();
             $.ajax({
-                url : server_context+"/forgetPasswordDeal.action",
+                url : server_context+"/forgetPasswordDeal",
                 data : json,
                 type : "post",
                 async : true,
                 success : function (data, textStatus) {
-                    alert(data);
-                    alert("the email is send success!")
+                    var json2 = eval("(" + data + ")");
+                    var ret = json2[0].rresult;
+                    if(ret == "exist") {
+                        alert("邮箱还没有注册用户！请先注册!");
+                    } else if(ret == "success"){
+                        alert("重置密码邮件已经发送，请登陆邮箱进行重置!")
+                        $(window).attr('location', method.getPath() +'/login');
+                    }
                 },
                 error : function () {
-                    alert("send email is error ! please try again later")
+                    alert("访问出错啦。。请稍后重试")
                 }
             })
         }

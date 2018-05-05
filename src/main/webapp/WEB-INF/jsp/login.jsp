@@ -38,14 +38,14 @@
                             <input type="submit" value="登陆" class="button"/>
                         </td>
                         <td rowspan="2">
-                            <a href="${pageContext.request.contextPath}/register.action">注册</a>
+                            <a href="${pageContext.request.contextPath}/register">注册</a>
                         </td>
                     </tr>
                     <tr>
                         <td></td>
                         <td></td>
                         <td colspan="2">
-                            <a href="${pageContext.request.contextPath}/forgetPassword.action">忘记密码?</a>
+                            <a href="${pageContext.request.contextPath}/forgetPassword">忘记密码?</a>
                         </td>
                     </tr>
                 </table>

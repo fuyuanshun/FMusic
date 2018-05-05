@@ -2,7 +2,9 @@ package com.fys.music.server;
 
 import com.fys.music.model.Resource;
 import com.fys.music.model.User;
+import org.apache.ibatis.annotations.Param;
 
+import java.util.Date;
 import java.util.List;
 
 public interface UserService {
@@ -73,4 +75,39 @@ public interface UserService {
      * 找回密码的处理逻辑
      */
     public void forgetPasswordDeal(String email);
+
+    /**
+     * 更新找回密码的validateCode
+     */
+    void updateValidateCode(String validateCode);
+
+    /**
+     * 查询找回密码的validateCode
+     */
+    String selectValidateCode(String email);
+
+    /**
+     * 更新找回密码的过期时间
+     */
+    void updateOutDate(Date outDate);
+
+    /**
+     * 查询找回密码的过期时间
+     */
+    String selectOutDate(String validateCode);
+
+    /**
+     * 检查找回密码的时间是否过期
+     */
+    String checkValidateCode(String validateCode, String email);
+
+    /**
+     * 通过用户名修改密码
+     */
+    String updatePassword(@Param("username")String username, @Param("password")String password, @Param("password2")String password2, @Param("email")String email);
+
+    /**
+     * 通过email查询用户名
+     */
+    String selectUsernameByEmail(String email);
 }

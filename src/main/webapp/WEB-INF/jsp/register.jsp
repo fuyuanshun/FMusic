@@ -9,8 +9,6 @@
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/register.js"></script>
     <%--表单验证插件--%>
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery/jquery.validate.js"></script>
-    <%--导入css文件--%>
-    <link href="${pageContext.request.contextPath}/css/register.css" rel="stylesheet" >
 </head>
 
 <body>
@@ -65,7 +63,7 @@
             </p><br>
 
             <p class="btn-group">
-                <label for="username">地址</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <label for="username">居住地址</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <input type="text" name="address" id="address"  required/>
             </p><br>
 
@@ -73,7 +71,7 @@
                 <input type="submit" value="注册" id="submit" />
             </p><br>
             <p class="btn-group">
-                <a class="goindex" href="${pageContext.request.contextPath}/login.action">已经有账号啦~ 去登陆</a>
+                <a class="goindex" href="${pageContext.request.contextPath}/login">已经有账号啦~ 去登陆</a>
             </p><br>
         </form>
     </div>

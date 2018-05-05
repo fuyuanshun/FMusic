@@ -8,6 +8,8 @@ import com.fys.util.MailUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -61,7 +63,7 @@ public class UserServiceImpl implements UserService {
                 user.setState(0);
                 user.setUrl(url);
                 try {
-                    MailUtil.sendTo("<a href='127.0.0.1:8080/FMusic/mailConf.action?url=" + url + "'>激活帐号</a> 如果无法跳转，请将链接复制到浏览器: <a href='127.0.0.1:8080/FMusic/mailConf.action?url='"+url+">127.0.0.1:8080/FMusic/mailConf.action?url="+url+"</a>", user.getEmail());
+                    MailUtil.sendTo("<a href='127.0.0.1:8080/FMusic/mailConf?url=" + url + "'>激活帐号</a> 如果无法跳转，请将链接复制到浏览器: <a href='127.0.0.1:8080/FMusic/mailConf?url='"+url+">127.0.0.1:8080/FMusic/mailConf?url="+url+"</a>", user.getEmail());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -156,12 +158,90 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public void forgetPasswordDeal(String email) {
-        String url = UUID.randomUUID().toString();
-        System.out.println(url);
+        String validateCode = UUID.randomUUID().toString();
+        validateCode = validateCode.replace("-", "");
         try {
-            MailUtil.sendTo("<a href='localhost:8080/FMusic/forgetPassword.action?url='"+url+">请点击修改密码</a>", email);
+            MailUtil.sendTo("<a href='localhost:8080/FMusic/resetPassword?url='"+validateCode+">请点击修改密码</a> 如果链接无法点击，请复制以下链接到浏览器: <a>localhost:8080/FMusic/resetPassword?validateCode="+validateCode+"&email="+email+"</a>", email);
+            updateValidateCode(validateCode);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+
+        //30分钟后过期
+        Timestamp outDate = new Timestamp(System.currentTimeMillis() + 30 * 60 * 1000);
+        long date = outDate.getTime() /1000 * 1000; //忽略毫秒数 mysql取出时间是忽略毫秒数的
+        updateOutDate(outDate);
+    }
+
+    /**
+     * 更新找回密码的ValidateCode
+     */
+    @Override
+    public void updateValidateCode(String validateCode) {
+        userDao.updateValidateCode(validateCode);
+    }
+
+    /**
+     * 查询找回密码的validateCode
+     */
+    @Override
+    public String selectValidateCode(String email) {
+     return userDao.selectValidateCode(email);
+    }
+
+    /**
+     * 设置找回密码的过期时间
+     */
+    @Override
+    public void updateOutDate(Date outDate) {
+        userDao.updateOutDate(outDate);
+    }
+
+    @Override
+    public String selectOutDate(String validateCode) {
+        return userDao.selectOutDate(validateCode);
+    }
+
+    /**
+     * 检查找回密码的时间是否过期
+     */
+    @Override
+    public String checkValidateCode(String validateCode, String email) {
+        if(null != validateCode && !validateCode.equals("")) {
+            if(null == selectOutDate(validateCode)) {
+                return "reseterror";
+            }
+
+            if(null == selectValidateCode(email)) {
+                return "reseterror";
+            }
+            long outTime = Timestamp.valueOf(selectOutDate(validateCode)).getTime();
+            if(selectValidateCode(email).equals(validateCode) && System.currentTimeMillis() < outTime) {
+                return "resetpage";
+            }
+        }
+            return "reseterror";
+    }
+
+    @Override
+    public String selectUsernameByEmail(String email) {
+        return userDao.selectUsernameByEmail(email);
+    }
+
+    /**
+     * 修改密码
+     */
+    @Override
+    public String updatePassword(String username, String password, String password2, String email) {
+        if(null != username && null != password && null != password2 && password.equals(password2)) {
+            if(selectUsernameByEmail(email).equals(username)) {
+                userDao.updatePassword(username, password);
+                return "updatesuccess";
+            } else {
+                return "updateerror";
+            }
+        } else {
+            return "updateerror";
         }
     }
 }

@@ -1,3 +1,5 @@
+<!--本页面参考了jplayer的demo，做了稍许的更改直接放在了本项目中，有兴趣深入了解可以查看jplayer的demo-->
+
 <%@page isELIgnored="false"%>
 <%@   page contentType="text/html;charset=utf-8" %>
 <%@ page pageEncoding="utf-8" %>

@@ -1,5 +1,6 @@
 create database fmusic default charset=utf8;
 
+use fmusic;
 
 create table user(
 id int primary key auto_increment,

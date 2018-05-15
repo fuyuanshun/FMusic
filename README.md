@@ -5,4 +5,3 @@
   前台页面使用了bootstrap进行了简单的美化，以及jquery、jplayer以及表单验证插件jquery-validate<br>
   前后端交互 : ajax、json<br>
   数据库 : mysql<br>
-  另外，两个音乐插件都不是原创，具体在hotmusic.jsp  music.jsp页面有描述<br>

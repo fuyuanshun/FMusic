@@ -5,7 +5,7 @@ use fmusic;
 create table user(
 id int primary key auto_increment,
 username varchar(15) not null,
-password varchar(15) not null,
+password varchar(50) not null,
 email varchar(40) not null,
 url varchar(64) not null,
 state varchar(2) not null,

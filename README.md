@@ -7,3 +7,5 @@
   前台页面使用了bootstrap进行了简单的美化，以及jquery、jplayer以及表单验证插件jquery-validate<br>
   前后端交互 : ajax、json<br>
   数据库 : mysql<br>
+
+SSM版本的从登录界面之后的版本都没有进行更新，主要更新Spring Boot版本

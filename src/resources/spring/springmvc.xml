@@ -20,8 +20,8 @@
     </bean>
 
     <!--拦截器-->
-    <mvc:interceptors>
-        <!--登陆验证拦截器-->
+   <!-- <mvc:interceptors>
+        &lt;!&ndash;登陆验证拦截器&ndash;&gt;
         <mvc:interceptor>
             <mvc:mapping path="/**"/>
             <mvc:exclude-mapping path="/js/**"/>
@@ -30,12 +30,12 @@
             <bean class="com.fys.music.interceptor.LoginInterceptor" />
         </mvc:interceptor>
 
-        <!--权限拦截器-->
+        &lt;!&ndash;权限拦截器&ndash;&gt;
         <mvc:interceptor>
             <mvc:mapping path="/**"/>
             <bean class="com.fys.music.interceptor.PowerInterceptor" />
         </mvc:interceptor>
-    </mvc:interceptors>
+    </mvc:interceptors>-->
 
     <!--对静态资源放行-->
     <mvc:resources mapping="/images/**" location="/WEB-INF/images/" />

@@ -1,5 +1,8 @@
 package com.fys.util;
 
+/**
+ *  分页
+ */
 public class Page {
     //总共的页数
     private int totalPage;
@@ -27,6 +30,9 @@ public class Page {
         this.currentPage = currentPage;
     }
 
+    /**
+     * 初始化总页数
+     */
     public void init() {
         totalPage = totalCount % pageSize != 0 ? totalCount / pageSize + 1 : totalCount/ pageSize;
         setTotalPage(totalPage);

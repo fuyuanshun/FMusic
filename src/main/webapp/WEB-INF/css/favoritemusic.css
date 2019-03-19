@@ -1,0 +1,158 @@
+*{
+    margin : 0;
+    padding : 0;
+}
+.content{
+    margin : 40px auto;
+    width : 982px;
+    border : 1px solid #d3d3d3;
+    height : 999px;
+}
+.content .left {
+    float : left;
+    width : 240px;
+    height : 641px;
+    border-right:1px solid #d3d3d3;
+}
+
+.content .left .first {
+    background-color: white;
+    border-right:1px solid #d3d3d3;
+}
+
+.content .left ul{
+    float : left;
+    list-style: none;
+    margin-top:30px;
+}
+
+.content .left ul li{
+    float : left;
+    height : 54px;
+    width : 240px;
+    text-align: center;
+    padding-left : 20px;
+    padding-top : 8px;
+    background-color: #e6e6e6;
+}
+
+.content .left ul li .leftimg img{
+    float : left;
+    width : 40px;
+    height : 40px;
+}
+
+.content .left ul li a{
+    display: block;
+    float : left;
+    height : 54px;
+    width : 240px;
+}
+
+.content .left ul li span{
+    float : left;
+    width : 150px;
+    height : 16px;
+    margin-bottom: 8px;
+    color : black;
+}
+
+.content .right{
+    float: right;
+    height : 641px;
+    width : 740px;
+}
+
+.content .right .top{
+    float: left;
+    width : 740px;
+    height : 280px;
+    background-color: #0ff;
+}
+
+.content .right .music {
+    float: left;
+    margin-top : 10px;
+}
+
+.content .right .music .info{
+    float : left;
+    width : 740px;
+    padding-left: 12px;
+    border-bottom: 2px solid red;
+}
+
+.content .right .music .info h3{
+    float : left;
+}
+
+.content .right .music .info span{
+    float : left;
+
+}
+
+.content .right .music .info>span{
+    float : left;
+    position: relative;
+    left : 20px;
+    top : 20px;
+}
+
+.content .right .music .list{
+    float : left;
+    background-color: yellow;
+    width : 740px;
+}
+
+.content .right .music .list table {
+    background-color: #d9d9d9;
+    border: 1px solid #d9d9d9;
+}
+
+.content .right .music .list thead {
+    float : left;
+    width : 740px;
+    height : 39px;
+    background-color: white;
+}
+
+.content .right .music .list thead th div{
+    float : left;
+}
+
+.content .right .music .list thead th.first div{
+    width : 74px;
+    height : 34px;
+    line-height: 34px;
+    border-right: 1px solid #d9d9d9;
+}
+
+.content .right .music .list thead th.second div{
+    width : 303px;
+    height : 34px;
+    line-height: 34px;
+    border-right: 1px solid #d9d9d9;
+}
+.content .right .music .list thead th._3 div{
+    width : 111px;
+    height : 34px;
+    line-height: 34px;
+    border-right: 1px solid #d9d9d9;
+}
+.content .right .music .list thead th._4 div{
+    width : 103px;
+    height : 34px;
+    line-height: 34px;
+    border-right: 1px solid #d9d9d9;
+}
+.content .right .music .list thead th._5 div{
+    width : 147px;
+    height : 43px;
+    line-height: 34px;
+    border-right: 1px solid #d9d9d9;
+}
+
+.content .right .music .list thead .music_list{
+    font-size: 13px;
+    color : #555;
+}

@@ -1,49 +1,40 @@
-$(document).ready(function(){
-    var localObj = window.location;
+var titles = new Array();
+var mp3s = new Array();
+//读取json文件
+function getTitles () {
+    $.getJSON("/FMusic/json/list.json", function (data) {
+        $.each(data, function (infoIndex, info) {
+            titles[infoIndex] = info["title"];
+            mp3s[infoIndex] = info["mp3"];
+        })
+    })
+};
 
-    var contextPath = localObj.pathname.split("/")[1];
-
-    var basePath = localObj.protocol+"//"+localObj.host+"/"+contextPath;
-
-    var server_context=basePath;
-
-    var description = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce id tortor nisi. Aenean sodales diam ac lacus elementum scelerisque. Suspendisse a dui vitae lacus faucibus venenatis vel id nisl. Proin orci ante, ultricies nec interdum at, iaculis venenatis nulla. ';
-
-    var myPlaylist = [
-        {
-            mp3:'auto/we.mp3',
-            title:'我们-陈奕迅',
-            artist:'FMusic',
-            rating:4,
-            buy:'#',
-            duration:'2:30',
-            cover:'auto/1.png'
-        },
-        {
-            mp3:'auto/纸短情长.mp3',
-            title:'纸短情长',
-            artist:'FMusic',
-            rating:4,
-            buy:'#',
-            duration:'2:31',
-            cover:'auto/1.png'
-        },
-        {
-            mp3:'auto/裙下之臣.mp3',
-            title:'裙下之臣-陈奕迅',
-            artist:'FMusic',
-            rating:4,
-            buy:'#',
-            duration:'2:10',
-            cover:'auto/1.png'
-        },
-    ];
-
-    $('body').ttwMusicPlayer(myPlaylist, {
-        autoPlay:false,
-        description:description,
-        jPlayer:{
-            swfPath:server_context+'/js/jplayer' //You need to override the default swf path any time the directory structure changes
+//获得音乐列表
+function getList() {
+    //先初始化数组
+    getTitles();
+    //休眠500毫秒再进行下一步操作，为了确保数组初始化完成
+    setTimeout(function () {
+        var json = "[";
+        for(var i=0; i<titles.length; i++){
+            json += '{"mp3":"'+mp3s[i]+'" , "title":"'+titles[i]+'"},'
         }
-    });
+        json = json.substr(0, json.length - 1);
+        json = json + "]";
+        //将json字符串转化为json对象
+        json = JSON.parse(json);
+        var description = 'Welcome FMusic';
+        $('body').ttwMusicPlayer(json, {
+            autoPlay:false,
+            description:description,
+            jPlayer:{
+                swfPath: '/js/jplayer'
+            }
+        });
+    }, 500)
+};
+
+$(document).ready(function(){
+    getList();
 });

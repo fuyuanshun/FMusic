@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fys.music.dao.AdminDao">
+    <!--查询歌曲是否已经存在-->
+    <select id="musicIsExist" parameterType="String" resultType="Integer">
+      select count(id) from music where name = #{musicName}
+    </select>
+
+    <!--将音乐添加到数据库-->
+    <insert id="addMusic">
+      insert into music (name, author, path) values (#{name}, #{author}, #{path})
+    </insert>
+    <!--查询管理员信息-->
+    <select id="getAdminInfo" resultType="Integer">
+        select count(id) from user where username = #{username} and password = #{password} and power = 1
+    </select>
+</mapper>

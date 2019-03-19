@@ -1,5 +1,8 @@
 package com.fys.music.model;
 
+/**
+ * 磁力链实体类
+ */
 public class Resource {
     private Integer id;
     private String magnet;

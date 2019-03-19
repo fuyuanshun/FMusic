@@ -2,16 +2,18 @@ package com.fys.util;
 
 import com.sun.mail.util.MailSSLSocketFactory;
 
-import javax.mail.Message;
-import javax.mail.Session;
-import javax.mail.Transport;
+import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import java.security.GeneralSecurityException;
 import java.util.Date;
 import java.util.Properties;
 
+/**
+ * 根据自己的邮箱修改发件人和密码
+ */
 public class MailUtil {
-    public static void sendTo(String body, String receiveMailAccount) throws Exception {
+    public static boolean sendTo(String body, String receiveMailAccount, String title) {
 
         Properties props = new Properties();
 
@@ -24,24 +26,46 @@ public class MailUtil {
         // 发送邮件协议名称
         props.setProperty("mail.transport.protocol", "smtp");
 
-        MailSSLSocketFactory sf = new MailSSLSocketFactory();
+        MailSSLSocketFactory sf = null;
+        try {
+            sf = new MailSSLSocketFactory();
+        } catch (GeneralSecurityException e) {
+            e.printStackTrace();
+            return false;
+        }
         sf.setTrustAllHosts(true);
         props.put("mail.smtp.ssl.enable", "true");
         props.put("mail.smtp.ssl.socketFactory", sf);
 
         Session session = Session.getInstance(props);
 
-        Message msg = createMimeMessage(session, "849485789@qq.com", receiveMailAccount, body);
+        Message msg = null;
+        try {
+            msg = createMimeMessage(session, "849485789@qq.com", receiveMailAccount, body, title);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-        Transport transport = session.getTransport();
-
-        transport.connect("849485789@qq.com", "lyfmomuenmubbeij");
-
-        transport.sendMessage(msg, /*new Address[]{new InternetAddress(receiveMailAccount)}*/msg.getAllRecipients());
-        transport.close();
+        Transport transport = null;
+        try {
+            transport = session.getTransport();
+            transport.connect("849485789@qq.com", "fihzyhyxdwuibfag");
+            transport.sendMessage(msg, msg.getAllRecipients());
+            transport.close();
+        } catch (NoSuchProviderException e) {
+            e.printStackTrace();
+            return false;
+        } catch (MessagingException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
-    public static MimeMessage createMimeMessage(Session session, String sendMail, String receiveMail, String body)
+    /**
+     * 定义一封邮件
+     */
+    public static MimeMessage createMimeMessage(Session session, String sendMail, String receiveMail, String body, String title)
             throws Exception {
         // 1. 创建一封邮件
         MimeMessage message = new MimeMessage(session);
@@ -53,7 +77,7 @@ public class MailUtil {
         message.setRecipient(MimeMessage.RecipientType.TO, new InternetAddress(receiveMail, "XX用户", "UTF-8"));
 
         // 4. Subject: 邮件主题
-        message.setSubject("激活您的帐号", "UTF-8");
+        message.setSubject(title, "UTF-8");
 
         // 5. Content: 邮件正文（可以使用html标签）
         message.setContent(body, "text/html;charset=UTF-8");

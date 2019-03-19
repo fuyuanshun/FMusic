@@ -1,64 +1,83 @@
 package com.fys.music.controller;
 
-import com.fys.music.model.Resource;
-import com.fys.music.server.UserService;
-import com.fys.util.Page;
+import com.fys.music.model.User;
+import com.fys.music.server.FMusicService;
+import com.fys.util.CreateVerfCode;
+import com.fys.util.MailUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
-import java.util.regex.Pattern;
 
 @Controller
 public class UserController {
-    @Autowired
-    private UserService userService;
+    @Autowired FMusicService userService;
 
     /**
      * 用户填写注册信息页面
      * @return
      */
     @RequestMapping("/register")
-    public String register() {
-        return "register";
+    public String register(HttpServletRequest req) {
+        req.setAttribute("flag", false);
+        return "registerAndLogin";
     }
 
     /**
      * 用户注册处理
      */
     @RequestMapping("/registerDeal")
-    public void registerDeal(HttpServletRequest req, HttpServletResponse resp) {
-        PrintWriter print = null;
-        try {
-            print = resp.getWriter();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    @ResponseBody
+    public String registerDeal(HttpServletRequest req, HttpServletResponse resp) {
         String username = req.getParameter("username");
         String password = req.getParameter("password");
         String password2 = req.getParameter("password2");
         String email = req.getParameter("email");
         String sex = req.getParameter("sex");
         Integer age = Integer.parseInt(req.getParameter("age"));
-        String birthday = req.getParameter("birthday");
+        String year = req.getParameter("year");
+        String month = req.getParameter("month");
+        String day = req.getParameter("day");
+        String birthday = year + "-" + month + "-" + day;
         String hobby = req.getParameter("hobby");
         String phone = req.getParameter("phone");
+        String emailCode = req.getParameter("emailCode");
+        String emailCodeWithSession = (String)req.getSession().getAttribute("emailCode");
         String address = req.getParameter("address");
-        String ret = userService.registerDeal(username, password, password2, email, sex, age, birthday, hobby, phone, address);
-        if(ret.equals("emailIsExist")) {
-            print.write("emailIsExist");
-        } else if (ret.equals("registerSuccess")) {
-            print.write("registerSuccess");
-        } else if (ret.equals("userIsExist")) {
-            print.write("userIsExist");
-        }
+        //用户填写的验证码
+        String validateCode = req.getParameter("validateCode");
+        //session中的验证码
+        String sessionCode = (String) req.getSession().getAttribute("checkCode");
+
+        String ret = userService.registerDeal(username, password, password2, email, sex, age, birthday, hobby, phone, address, sessionCode, validateCode, emailCode, emailCodeWithSession);
+        return ret;
+    }
+
+    /**
+     * 个人中心
+     */
+    @RequestMapping(value = "/myInfo")
+    public String myInfo(HttpServletRequest req, HttpServletResponse resp) {
+        String username = req.getParameter("username");
+        User user = userService.getUserInfo(username);
+        req.getSession().setAttribute("user", user);
+        return "myInfo";
+    }
+
+    /**
+     * 更新个性签名
+     */
+    @RequestMapping("/updateSignature")
+    public @ResponseBody String updateSignature(HttpServletRequest req, HttpServletResponse resp){
+        String signature = req.getParameter("signature");
+        String username = req.getParameter("username");
+        return userService.updateSignature(signature, username);
     }
 
 
@@ -70,7 +89,7 @@ public class UserController {
     public String mailConf(HttpServletRequest req, HttpServletResponse resp) {
         String url = req.getParameter("url");
         userService.mailConf(url);
-        return "/login";
+        return "/registerAndLogin";
     }
 
 
@@ -78,61 +97,40 @@ public class UserController {
      * 用户登陆页面
      */
     @RequestMapping("/login")
-    public String login() {
-        return "login";
+    public String login(HttpServletRequest req) {
+        req.setAttribute("flag", true);
+        return "registerAndLogin";
     }
-
 
     /**
      * 登陆处理
      */
     @RequestMapping("/loginDeal")
-    public void loginDeal(HttpServletRequest req, HttpServletResponse resp) {
-        PrintWriter out = null;
-        try {
-            out = resp.getWriter();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+    @ResponseBody()
+    public String loginDeal(HttpServletRequest req, HttpServletResponse resp) {
         String username = req.getParameter("username");
         String password = req.getParameter("password");
         String ret = userService.loginDeal(username, password);
         if (ret.equals("loginSuccess")) {
             HttpSession httpSession = req.getSession();
             httpSession.setAttribute("username", username);
-            out.write("loginSuccess");
+            httpSession.setAttribute("userId", userService.selectIdByUsername(username));
+            return "loginSuccess";
         } else {
-            out.write(ret);
+            return ret;
         }
     }
 
     /**
      * 退出
      */
-    @RequestMapping("/logout.action")
+    @RequestMapping("/logout")
     public String logout(HttpServletRequest httpServletRequest, String username, String password) {
         HttpSession httpSession = httpServletRequest.getSession();
         httpSession.invalidate();
-        return "redirect:index.jsp";
+        return "redirect:/";
     }
 
-
-    /**
-     * 播放音乐
-     */
-    @RequestMapping("/music.action")
-    public String music() {
-        return "music";
-    }
-
-    /**
-     * 热门音乐
-     */
-    @RequestMapping("/hotmusic.action")
-    public String hotmusic() {
-        return "hotmusic";
-    }
 
     /**
      * 找回密码页面
@@ -198,50 +196,22 @@ public class UserController {
         String password2 = req.getParameter("password2");
         out.print(userService.updatePassword(username, password, password2, email));
     }
+
     /**
-     * 资源列表页面
+     * 发送验证码至邮箱
      */
-    @RequestMapping("/resource.action")
-    public ModelAndView resource(HttpServletRequest res, HttpServletResponse resp) {
-        String currentPageStr;
-        if(null != res.getParameter("currentPage")) {
-            currentPageStr = res.getParameter("currentPage");
+    @RequestMapping("/verfCode")
+    @ResponseBody
+    public String verfCode(HttpServletRequest req, HttpServletResponse resp) {
+        String email = req.getParameter("email");
+        String isExist = userService.selectMailIsExist(email);
+        if (isExist != null) {
+            return "exist";
         } else {
-            currentPageStr = "1";
-            res.setAttribute("currentPage", 1);
+            String emailCode = CreateVerfCode.getVerfCode();
+            req.getSession().setAttribute("emailCode", emailCode);
+            MailUtil.sendTo("您的验证码为：" + emailCode, email, "验证码");
+            return "success";
         }
-        int currentPage = 1;
-        if(null !=  currentPageStr && !currentPageStr.equals("")) {
-            if (Pattern.matches("^[0-9]+$", currentPageStr)) {
-                currentPage = Integer.parseInt(currentPageStr);
-            } else {
-                currentPage = 1;
-            }
-        }
-        //所有的磁力链
-        List<Resource> resources = userService.selectResource();
-
-        Page page = new Page(resources.size(), currentPage);
-        page.init();
-        int pageSize = page.getPageSize();
-
-        if(currentPage < 1) {
-            currentPage = 1;
-        }
-        if(currentPage > page.getTotalPage()) {
-            currentPage = page.getTotalPage();
-        }
-
-        //分页查询的磁力链
-        List<Resource> paging = userService.selectResourceByPage(currentPage, pageSize);
-
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("totalPage", page.getTotalPage());
-        modelAndView.addObject("currentPage", currentPage);
-        res.setAttribute("currentPage", currentPage);
-        modelAndView.addObject("resources", paging);
-        modelAndView.addObject("page1", page);
-        modelAndView.setViewName("resource");
-        return modelAndView;
     }
 }

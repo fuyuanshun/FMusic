@@ -28,14 +28,14 @@ $(function () {
         submitHandler: function() {
             var json = $("#resetForm").serialize();
             $.ajax({
-                url: method.getPath() + "/updatePassword",
+                url: "/FMusic/updatePassword",
                 type: "post",
                 data: json,
                 async: true,
                 success: function (data, textStatus) {
                     if(data == "updateSuccess") {
                         alert("修改用户密码成功!");
-                        $(window).attr('location', method.getPath() +'/login');
+                        $(window).attr('location', '/FMusic/login');
                     } else if (data == "updateError") {
                         alert("用户名与邮箱不一致!");
                     }
@@ -88,19 +88,3 @@ $(function () {
         }
     })
 })
-
-
-/*可以获得当前项目的路径*/
-var method  = {
-    getPath : function getPath() {
-        var localObj = window.location;
-
-        var contextPath = localObj.pathname.split("/")[1];
-
-        var basePath = localObj.protocol+"//"+localObj.host+"/"+contextPath;
-
-        var server_context=basePath;
-
-        return server_context;
-    }
-}

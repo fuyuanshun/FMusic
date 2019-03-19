@@ -1,20 +1,33 @@
 package com.fys.music.model;
 
+import java.util.List;
 
+/**
+ * 用户实体类
+ */
 public class User {
-    private int id;
+    private int id; //用户内部id
 
-    private String username;
-    private String password;
-    private String email;
-    private String url;
-    private Integer state;
-    private String sex;
-    private Integer age;
-    private String phone;
-    private String birthday;
-    private String hobby;
-    private String address;
+    private String username; //用户账号
+    private String password; //用户密码
+    private String email; //电子邮箱
+    private String url;  //找回密码的url
+    private Integer state; //账号是否激活 1表示激活 0表示未激活
+    private String sex; //性别
+    private Integer age; //年龄
+    private String phone; //手机号
+    private String birthday; //生日
+    private String hobby; //爱好
+    private String address; //地址
+    private List<Music> musicList; //歌单
+    private String signature; //个性签名
+
+    private String lastLoginTime; //最后一次登陆的时间
+
+    public String getSignature() {
+        return signature;
+    }
+
 
     public User() {
 
@@ -59,6 +72,13 @@ public class User {
                 '}';
     }
 
+    public String getLastLoginTime() {
+        return lastLoginTime;
+    }
+
+    public void setLastLoginTime(String lastLoginTime) {
+        this.lastLoginTime = lastLoginTime;
+    }
 
     public Integer getState() {
         return state;
@@ -104,8 +124,19 @@ public class User {
         return birthday;
     }
 
+    public void setSignature(String signature) {
+        this.signature = signature;
+    }
+
     public void setBirthday(String birthday) {
         this.birthday = birthday;
+    }
+    public List<Music> getMusicList() {
+        return musicList;
+    }
+
+    public void setMusicList(List<Music> musicList) {
+        this.musicList = musicList;
     }
 
     public String getSex() {
@@ -155,4 +186,6 @@ public class User {
     public void setAddress(String address) {
         this.address = address;
     }
+
+
 }

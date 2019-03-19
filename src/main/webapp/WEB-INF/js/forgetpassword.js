@@ -1,12 +1,4 @@
 $(function () {
-    var localObj = window.location;
-
-    var contextPath = localObj.pathname.split("/")[1];
-
-    var basePath = localObj.protocol+"//"+localObj.host+"/"+contextPath;
-
-    var server_context=basePath;
-
     /**
      * 回调函数
      */
@@ -14,7 +6,7 @@ $(function () {
         submitHandler: function() {
             var json = $("#getPassword").serialize();
             $.ajax({
-                url : server_context+"/forgetPasswordDeal",
+                url : "/FMusic/forgetPasswordDeal",
                 data : json,
                 type : "post",
                 async : true,
@@ -23,7 +15,7 @@ $(function () {
                         alert("邮箱还没有注册用户！请先注册!");
                     } else if(data == "success"){
                         alert("重置密码邮件已经发送，请登陆邮箱进行重置!")
-                        $(window).attr('location', method.getPath() +'/login');
+                        $(window).attr('location', '/FMusic/login');
                     }
                 },
                 error : function () {
@@ -50,18 +42,3 @@ $(function () {
     })
 
 })
-
-/*可以获得当前项目的路径*/
-var method  = {
-    getPath : function getPath() {
-        var localObj = window.location;
-
-        var contextPath = localObj.pathname.split("/")[1];
-
-        var basePath = localObj.protocol+"//"+localObj.host+"/"+contextPath;
-
-        var server_context=basePath;
-
-        return server_context;
-    }
-}

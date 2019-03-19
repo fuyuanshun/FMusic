@@ -1,54 +1,63 @@
-ul {
+div.carousel-item img {
+    width: 100%;
+    height: 300px;
+}
+
+div#carousel-example-generic {
+    width: 80%;
+    margin: 0 auto;
+}
+
+.tab a {
+    color: black;
+}
+
+.tab a:hover {
+    text-decoration: none;
+    color: darkred;
+}
+
+.cl{
+    clear: both;
+    height : 20px;
+}
+.content{
+    margin : 0 auto;
+    width : 1100px;
+}
+
+.content .music{
+    height : 1000px;
+    font-size : 12px;
+}
+
+.content .music ul{
     list-style: none;
 }
 
-.top2 {
-    position : relative;
-    top : 0px;
+.content .music ul li{
+    float : left;
+    width : 300px;
+    height : 140px;
+    margin-right : 50px;
+    margin-bottom : 170px;
+}
+
+.content .music ul li div{
+    float : left;
+    margin-right: 10px;
+}
+
+.content .music ul li p{
+    float : left;
     width : 150px;
-    height : 900px;
-    background: red;
 }
 
-.top2 ul li {
-    height : 80px;
+.content .music ul li p span{
+    display: block;
+    line-height: 40px;
 }
 
-.top2 ul a {
-    color : black;
-    font-size: 20px;
-    line-height: 15px;
-}
-
-div.new0 {
-    width : 600px;
-    height : 800px;
-    position : absolute;
-    top : 57px;
-    left : 300px;
-    float : right;
-}
-
-.main {
-    width : 800px;
-    height : 400px;
-    position : absolute;
-    top : 28px;
-    left : 150px;
-    float : right;
-}
-
-div.new1 {
-    background: green;
-    display: none;
-}
-
-div.new2 {
-    background: blue;
-    display: none;
-}
-
-div.new3 {
-    background: gold;
-    display: none;
+.collected{
+    background-color: #555;
 }

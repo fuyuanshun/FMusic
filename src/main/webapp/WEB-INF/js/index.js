@@ -1,13 +1,62 @@
-$(function () {
-    $(".top2 ul li").mouseenter(function () {
-        var index = $(this).index();
-        $(".top3 div:eq("+index+")").show();
-        $(".new0").hide();
-    }).mouseleave(function () {
-        $(".new0").show();
-        var index = $(this).index();
-        $(".top3 div:eq("+index+")").hide();
-    });
+$(function(){
+    $(".content .music button.collect").click(function(){
+        var id = $(this).val();
+        $.ajax({
+            url : "/FMusic/collect",
+            async : true,
+            type : "POST",
+            data : id,
+            success : function(data){
+                if (data === "success") {
+                    $(this).addClass('collected');
+                    $(this).removeClass('btn-danger');
+                    alert("收藏成功 请去我的音乐查看!")
+                } else if (data === "exist") {
+                    alert("收藏失败，该歌曲已经被收藏过了")
+                }
+            },
+            error : function() {
+                alert("服务器出了点问题~~请稍后再试哦~~嘤嘤嘤");
+            },
+            complete : function(xhr, status){
+                var REDIRECT = xhr.getResponseHeader("REDIRECT");
+                if(REDIRECT === "REDIRECT"){
+                    alert("请先进行登陆！");
+                    $(window).attr("location", "/FMusic/login");
+                }
+            }
+        })
+    })
 
-    (function(doc){var addEvent='addEventListener',type='gesturestart',qsa='querySelectorAll',scales=[1,1],meta=qsa in doc?doc[qsa]('meta[name=viewport]'):[];function fix(){meta.content='width=device-width,minimum-scale='+scales[0]+',maximum-scale='+scales[1];doc.removeEventListener(type,fix,true);}if((meta=meta[meta.length-1])&&addEvent in doc){fix();scales=[.25,1.6];doc[addEvent](type,fix,true);}}(document));
+    $(".content .music button.play").click(function(){
+        var id = $(this).val();
+
+        $.ajax({
+            url : "/FMusic/play",
+            async : true,
+            type : "POST",
+            data : id,
+            success : function(data){
+                if(data.length>120){
+                    return;
+                }
+                $("#audio").attr("src", data);
+                if($("#audio")[0].paused){
+                    $("#audio")[0].play();
+                } else {
+                    $("#audio")[0].pause();
+                }
+            },
+            error : function() {
+                alert("服务器出了点问题~~请稍后再试哦~~嘤嘤嘤");
+            },
+            complete : function(xhr, status){
+                var REDIRECT = xhr.getResponseHeader("REDIRECT");
+                if(REDIRECT === "REDIRECT"){
+                    alert("请先进行登陆！");
+                    $(window).attr("location", "/FMusic/login");
+                }
+            }
+        })
+    })
 })

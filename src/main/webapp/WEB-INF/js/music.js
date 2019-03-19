@@ -1,84 +1,47 @@
-$(document).ready(function(){
-    var localObj = window.location;
+var titles = new Array();
+var mp3s = new Array();
 
-    var contextPath = localObj.pathname.split("/")[1];
+//获取json文件的数据
+function getJson() {
+    getTitles(titles, mp3s);
+    var json = "[";
+    for(var i=0; i<titles.length; i++){
+        json += '{"mp3":"'+mp3s[i]+'" , "title":"'+titles[i]+'"},'
+    }
+    return json;
+};
 
-    var basePath = localObj.protocol+"//"+localObj.host+"/"+contextPath;
+//初始化数组内容
+function getTitles(titles, mp3s) {
+    $.getJSON("/FMusic/json/list.json", function (data) {
+        $.each(data, function (infoIndex, info) {
+            titles[infoIndex] = info["title"];
+            mp3s[infoIndex] = info["mp3"];
+        })
+    })
+};
 
-    var server_context=basePath;
-
-    new jPlayerPlaylist({
-        jPlayer: "#jquery_jplayer_1",
-        cssSelectorAncestor: "#jp_container_1"
-    }, [
-        {
-            title:"我们",
-            mp3:server_context+"/auto/we.mp3",
-        },
-        {
-            title:"纸短情长",
-            mp3:server_context+"/auto/纸短情长.mp3",
-        },
-        {
-            title:"裙下之臣",
-            mp3:server_context+"/auto/裙下之臣.mp3",
-        },
-        {
-            title:"Hidden",
-            mp3:"http://www.jplayer.org/audio/mp3/Miaow-02-Hidden.mp3",
-            oga:"http://www.jplayer.org/audio/ogg/Miaow-02-Hidden.ogg"
-        },
-        {
-            title:"Lentement",
-            free:true,
-            mp3:"http://www.jplayer.org/audio/mp3/Miaow-03-Lentement.mp3",
-            oga:"http://www.jplayer.org/audio/ogg/Miaow-03-Lentement.ogg"
-        },
-        {
-            title:"Lismore",
-            mp3:"http://www.jplayer.org/audio/mp3/Miaow-04-Lismore.mp3",
-            oga:"http://www.jplayer.org/audio/ogg/Miaow-04-Lismore.ogg"
-        },
-        {
-            title:"The Separation",
-            mp3:"http://www.jplayer.org/audio/mp3/Miaow-05-The-separation.mp3",
-            oga:"http://www.jplayer.org/audio/ogg/Miaow-05-The-separation.ogg"
-        },
-        {
-            title:"Beside Me",
-            mp3:"http://www.jplayer.org/audio/mp3/Miaow-06-Beside-me.mp3",
-            oga:"http://www.jplayer.org/audio/ogg/Miaow-06-Beside-me.ogg"
-        },
-        {
-            title:"Bubble",
-            free:true,
-            mp3:"http://www.jplayer.org/audio/mp3/Miaow-07-Bubble.mp3",
-            oga:"http://www.jplayer.org/audio/ogg/Miaow-07-Bubble.ogg"
-        },
-        {
-            title:"Stirring of a Fool",
-            mp3:"http://www.jplayer.org/audio/mp3/Miaow-08-Stirring-of-a-fool.mp3",
-            oga:"http://www.jplayer.org/audio/ogg/Miaow-08-Stirring-of-a-fool.ogg"
-        },
-        {
-            title:"Partir",
-            free: true,
-            mp3:"http://www.jplayer.org/audio/mp3/Miaow-09-Partir.mp3",
-            oga:"http://www.jplayer.org/audio/ogg/Miaow-09-Partir.ogg"
-        },
-        {
-            title:"Thin Ice",
-            mp3:"http://www.jplayer.org/audio/mp3/Miaow-10-Thin-ice.mp3",
-            oga:"http://www.jplayer.org/audio/ogg/Miaow-10-Thin-ice.ogg"
-        }
-    ], {
-        /*swfPath: "../../dist/jplayer",*/
-        swfPath: server_context+"/js/jplayer",
-        supplied: "oga, mp3",
-        wmode: "window",
-        useStateClassSkin: true,
-        autoBlur: false,
-        smoothPlayBar: true,
-        keyEnabled: true
-    });
+$(function(){
+    getTitles(titles, mp3s);
+    //休眠500毫秒，为了确保数组初始化完成
+    setTimeout(function () {
+        var json = getJson();
+        json = json.substr(0, json.length - 1);
+        json = json + "]";
+        //将json字符串转化为json对象
+        json = JSON.parse(json);
+        new jPlayerPlaylist({
+            jPlayer: "#jquery_jplayer_1",
+            cssSelectorAncestor: "#jp_container_1"
+        }, [{"mp3":"//139.199.198.151:8080/repo/music/陈奕迅-陀飞轮.mp3" , "title":"陈奕迅-陀飞轮.mp3"},{"mp3":"//139.199.198.151:8080/repo/music/薛之谦-丑八怪.mp3" , "title":"薛之谦-丑八怪.mp3"},{"mp3":"//139.199.198.151:8080/repo/music/薛之谦-刚刚好.mp3" , "title":"薛之谦-刚刚好.mp3"},{"mp3":"//139.199.198.151:8080/repo/music/Joey_Montana-Picky.mp3" , "title":"Joey_Montana-Picky.mp3"},{"mp3":"//139.199.198.151:8080/repo/music/TheWeeknd-TheHills.mp3" , "title":"TheWeeknd-TheHills.mp3"},{"mp3":"//139.199.198.151:8080/repo/music/ArianaGrande,NickiMinaj-SideToSide.mp3" , "title":"ArianaGrande,NickiMinaj-SideToSide.mp3"},{"mp3":"//139.199.198.151:8080/repo/music/陈奕迅-陀飞轮.mp3" , "title":"陈奕迅-陀飞轮.mp3"},{"mp3":"//139.199.198.151:8080/repo/music/The_Weeknd-The_Hills.mp3" , "title":"The_Weeknd-The_Hills.mp3"},{"mp3":"//139.199.198.151:8080/repo/music/陈奕迅-一丝不挂.mp3" , "title":"陈奕迅-一丝不挂.mp3"},{"mp3":"//139.199.198.151:8080/repo/music/陈奕迅-富士山下.mp3" , "title":"陈奕迅-富士山下.mp3"},{"mp3":"//139.199.198.151:8080/repo/music/陈奕迅-落花流水.mp3" , "title":"陈奕迅-落花流水.mp3"},{"mp3":"//139.199.198.151:8080/repo/music/薛之谦-演员.mp3" , "title":"薛之谦-演员.mp3"},{"mp3":"//139.199.198.151:8080/repo/music/陈奕迅-红玫瑰.mp3" , "title":"陈奕迅-红玫瑰.mp3"},{"mp3":"//139.199.198.151:8080/repo/music/薛之谦-绅士.mp3" , "title":"薛之谦-绅士.mp3"},{"mp3":"//139.199.198.151:8080/repo/music/薛之谦-我好像在哪见过你.mp3" , "title":"薛之谦-我好像在哪见过你.mp3"},{"mp3":"//139.199.198.151:8080/repo/music/薛之谦-丑八怪.mp3" , "title":"薛之谦-丑八怪.mp3"},{"mp3":"//139.199.198.151:8080/repo/music/陈奕迅-苦瓜.mp3" , "title":"陈奕迅-苦瓜.mp3"},{"mp3":"//139.199.198.151:8080/repo/music/薛之谦-演员.mp3" , "title":"薛之谦-演员.mp3"},{"mp3":"//139.199.198.151:8080/repo/music/陈奕迅-红玫瑰.mp3" , "title":"陈奕迅-红玫瑰.mp3"},{"mp3":"//139.199.198.151:8080/repo/music/Ariana_Grande,Nicki_Minaj-Side_To_Side.mp3" , "title":"Ariana_Grande,Nicki_Minaj-Side_To_Side.mp3"},{"mp3":"//139.199.198.151:8080/repo/music/陈奕迅-苦瓜.mp3" , "title":"陈奕迅-苦瓜.mp3"},{"mp3":"//139.199.198.151:8080/repo/music/薛之谦-绅士.mp3" , "title":"薛之谦-绅士.mp3"},{"mp3":"//139.199.198.151:8080/repo/music/ss.mp3" , "title":"ss.mp3"},{"mp3":"//139.199.198.151:8080/repo/music/JoeyMontana-Picky.mp3" , "title":"JoeyMontana-Picky.mp3"},{"mp3":"//139.199.198.151:8080/repo/music/薛之谦-刚刚好.mp3" , "title":"薛之谦-刚刚好.mp3"},{"mp3":"//139.199.198.151:8080/repo/music/twentyonepilots-StressedOut.mp3" , "title":"twentyonepilots-StressedOut.mp3"},{"mp3":"//139.199.198.151:8080/repo/music/twenty_one_pilots-Stressed_Out.mp3" , "title":"twenty_one_pilots-Stressed_Out.mp3"},{"mp3":"//139.199.198.151:8080/repo/music/陈奕迅-一丝不挂.mp3" , "title":"陈奕迅-一丝不挂.mp3"},{"mp3":"//139.199.198.151:8080/repo/music/陈奕迅-富士山下.mp3" , "title":"陈奕迅-富士山下.mp3"},{"mp3":"//139.199.198.151:8080/repo/music/薛之谦-我好像在哪见过你.mp3" , "title":"薛之谦-我好像在哪见过你.mp3"},{"mp3":"//139.199.198.151:8080/repo/music/陈奕迅-落花流水.mp3" , "title":"陈奕迅-落花流水.mp3"}], {
+            /*swfPath: "../../dist/jplayer",*/
+            swfPath: "/js/jplayer",
+            supplied: "oga, mp3",
+            wmode: "window",
+            useStateClassSkin: true,
+            autoBlur: false,
+            smoothPlayBar: true,
+            keyEnabled: true
+        });
+    }, 500);
 });

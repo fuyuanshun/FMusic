@@ -18,7 +18,6 @@
 </head>
 <body>
 <div id="title"></div>
-<a href="#" id="download">返回首页</a>
 </body>
 </body>
 </html>

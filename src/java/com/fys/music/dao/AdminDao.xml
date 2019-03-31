@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fys.music.dao.AdminDao">
+    <!--查询歌曲是否已经存在-->
+    <select id="musicIsExist" parameterType="String" resultType="Integer">
+      select count(id) from music where name = #{musicName}
+    </select>
+
+    <!--将音乐添加到数据库-->
+    <insert id="addMusic">
+      insert into music (name, author, path) values (#{name}, #{author}, #{path})
+    </insert>
+    <!--查询管理员是否存在-->
+    <select id="getAdminInfo" resultType="Integer">
+        select count(id) from user where username = #{username} and password = #{password} and power = 1
+    </select>
+
+    <resultMap id="AdminMap" type="User">
+        <id property="id" column="id" />
+        <result property="username"  column="username" />
+        <result property="email"  column="email" />
+        <result property="sex"  column="sex" />
+        <result property="age"  column="age" />
+        <result property="phone"  column="phone" />
+        <result property="birthday"  column="birthday" />
+        <result property="hobby"  column="hobby" />
+        <result property="address"  column="address" />
+        <result property="signature"  column="signature" />
+        <result property="lastLoginTime"  column="last_login" />
+        <result property="power"  column="power" />
+        <collection property="musicList" ofType="Music">
+            <id column="id" property="id" />
+            <result property="name" column="name" />
+            <result property="author" column="author" />
+            <result property="path" column="path" />
+            <result property="picpath" column="picpath" />
+        </collection>
+    </resultMap>
+
+    <!--获取管理员的所有信息-->
+    <select id="getAllInfo" parameterType="String" resultMap="AdminMap">
+        select * from user u, music m where username = #{username};
+    </select>
+</mapper>

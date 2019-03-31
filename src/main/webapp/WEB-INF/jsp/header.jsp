@@ -12,8 +12,8 @@
     <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet">
     <script src="js/bootstrap/bootstrap.min.js"></script>
     <%--导入css文件--%>
-    <link href="css/header.css" rel="stylesheet" >
-    <script type="text/javascript" src="js/header.js"></script>
+    <link href="css/project/header.css" rel="stylesheet" >
+    <script type="text/javascript" src="js/project/header.js"></script>
 </head>
 <%
     String result = (String)request.getSession().getAttribute("username");

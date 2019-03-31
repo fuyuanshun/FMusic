@@ -5,13 +5,8 @@
     <script type="text/javascript" src="js/jquery/jquery.min.js"></script>
     <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
 </head>
-<%
-    String admin = (String)request.getSession().getAttribute("admin");
-    if (admin == null) {%>
-<script type="text/javascript">alert("请先进行登陆");$(window).attr("location","/FMusic/admin/login");</script>
-<%return;}else{%>
-    欢迎管理员: <span class="text-danger"><%=admin%>&nbsp;<a href="/FMusic/admin/logout">退出</a><span>
-<%}%>
+
+<a href="">退出</a><span>
 <script type="text/javascript">
     $(function(){
         $("#uploadBtn").click(function(){

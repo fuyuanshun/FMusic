@@ -15,8 +15,8 @@
     <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
     <%-- bootstrap js文件 --%>
     <script type="text/javascript" src="js/bootstrap/bootstrap.min.js"></script>
-    <script type="text/javascript" src="js/adminLogin.js"></script>
-    <link rel="stylesheet" href="css/adminLogin.css">
+    <script type="text/javascript" src="js/project/adminLogin.js"></script>
+    <link rel="stylesheet" href="css/project/adminLogin.css">
 </head>
 <body class="loginbg">
    <div class="container">

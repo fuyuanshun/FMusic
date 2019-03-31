@@ -14,9 +14,9 @@
 <head>
     <title>首页</title>
     <link href="http://how2j.cn/study/css/bootstrap/3.3.6/bootstrap.min.css" rel="stylesheet">
-    <link href="css/index.css" rel="stylesheet">
+    <link href="css/project/index.css" rel="stylesheet">
     <script src="http://how2j.cn/study/js/bootstrap/3.3.6/bootstrap.min.js"></script>
-    <script src="js/index.js"></script>
+    <script src="js/project/index.js"></script>
 </head>
 
 <body>

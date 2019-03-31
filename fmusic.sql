@@ -17,7 +17,8 @@ phone varchar(15),
 address varchar(30),
 validatecode varchar(64),
 outdate datetime,
-power tinyint default 0
+power tinyint default 0,
+signature varchar(300) default ''
 );
 
 
@@ -30,3 +31,9 @@ create table music
  (id int primary key auto_increment,
  name varchar(30) not null,
  path varchar(100) not null));
+
+create table systemlog
+(id int primary key auto_increment,
+operator varchar(50) default '',
+content varchar(200) default '',
+operatDate date);
